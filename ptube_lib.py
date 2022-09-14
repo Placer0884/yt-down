@@ -3,18 +3,18 @@ from pytube import Playlist
 import re
 
 
-flags = ["-p", "-d"]
+flags = [" -p", " -d"]
 download_destination = 'downloads/'
 
 
-def format(command):
+def format(command: str) -> str:
     if any(word in command for word in flags):
         for flag in flags:
-            command = re.sub(flag, "", command, )
-        return command
+            command = re.sub(flag, "", command)
+    return command
 
 
-def download(link):
+def download(link:str):
     global not_found_links
     try:
         YouTube(link).streams.filter(progressive=True, file_extension='mp4').order_by(
@@ -24,13 +24,15 @@ def download(link):
             print(link, "was not found")
 
 
-def download_playlist(p_list):
+
+
+def download_playlist(p_list: str):
     playlist = Playlist(p_list)
     for video in playlist.videos:
         download(video)
 
 
-def doc_download(command):
+def doc_download(command:str):
     while True:
         try:
             links = open(command, "r").readlines()
